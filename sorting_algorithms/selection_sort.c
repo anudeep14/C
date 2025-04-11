@@ -7,11 +7,11 @@ space complexity : O()
 
 void ascendingSelectionSort(int* arr, int size)
 {
-    for(int i = 0 ; i < size - 1; ++i) // to trace the sorted list ending index
+    for(int i = 0 ; i < size - 1 ; ++i) // to trace the sorted list ending index
     {
         int minIndex = i; // consider first element as the least element
 
-        for(int j = i+1 ; j < size; ++j)
+        for(int j = i+1 ; j < size ; ++j)
         {
             if(arr[j] < arr[minIndex]) // traversing array, replace min index if you find any other least element
             {

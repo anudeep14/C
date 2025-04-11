@@ -4,56 +4,64 @@ time complexity : O()
 space complexity : O()
 */
 #include <stdio.h>
+#include <stdlib.h>
 
 void ascendingMerge(int arr[], int left, int mid, int right)
 {
-   int l1, l2, i;
-   int b[right+1];
+    int l1, l2, i;
+    int size = right - left + 1;
+    int *b = (int *)malloc(size * sizeof(int)); // Dynamic allocation
+        if (b == NULL) return; // Check allocation failure
+    for(l1 = left, l2 = mid + 1, i = 0; l1 <= mid && l2 <= right; ++i) {
+        if(arr[l1] <= arr[l2])
+            b[i] = arr[l1++];
+        else
+            b[i] = arr[l2++];
+    }
 
-   for(l1 = left, l2 = mid + 1, i = left; l1 <= mid && l2 <= right; ++i) {
-      if(arr[l1] <= arr[l2])
-         b[i] = arr[l1++];
-      else
-         b[i] = arr[l2++];
-   }
+    while(l1 <= mid)
+        b[i++] = arr[l1++];
 
-   while(l1 <= mid)
-      b[i++] = arr[l1++];
+    while(l2 <= right)
+        b[i++] = arr[l2++];
 
-   while(l2 <= right)
-      b[i++] = arr[l2++];
+    for (i = 0; i < size; ++i)
+        arr[left + i] = b[i];
 
-   for(i = left; i <= right; i++)
-      arr[i] = b[i];
+    free(b);
 }
 
 void descendingMerge(int arr[], int left, int mid, int right)
 {
-   int l1, l2, i;
-   int b[right+1];
+    int l1, l2, i;
+    int size = right - left + 1;
+    int *b = (int *)malloc(size * sizeof(int)); // Dynamic allocation
+        if (b == NULL) return; // Check allocation failure
 
-   for(l1 = left, l2 = mid + 1, i = left; l1 <= mid && l2 <= right; ++i) {
-      if(arr[l1] >= arr[l2])
-         b[i] = arr[l1++];
-      else
-         b[i] = arr[l2++];
-   }
+    for(l1 = left, l2 = mid + 1, i = 0; l1 <= mid && l2 <= right; ++i) {
+        if(arr[l1] >= arr[l2])
+            b[i] = arr[l1++];
+        else
+            b[i] = arr[l2++];
+    }
 
-   while(l1 <= mid)
-      b[i++] = arr[l1++];
+    while(l1 <= mid)
+        b[i++] = arr[l1++];
 
-   while(l2 <= right)
-      b[i++] = arr[l2++];
+    while(l2 <= right)
+        b[i++] = arr[l2++];
 
-   for(i = left; i <= right; i++)
-      arr[i] = b[i];
+    for(i = 0; i < size; ++i)
+        arr[left+i] = b[i];
+
+    free(b);
 }
 
 void ascendingMergeSort(int arr[], int left, int right)
 {
     if(left < right)
     {
-        int mid = left + (right - left) / 2;
+        int mid = left + (right - left) / 2; // to account for overflow in case of large data sets
         ascendingMergeSort(arr, left, mid);
         ascendingMergeSort(arr, mid+1, right);
         ascendingMerge(arr, left, mid, right);
